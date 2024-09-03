@@ -14,7 +14,7 @@
 */
 function setup() {
     // A 640x480 canvas
-    createCanvas(640, 640);
+    createCanvas(400, 400);
 
     // Don't show the cursor
     noCursor();
@@ -26,11 +26,11 @@ function setup() {
 */
 function draw() {
     // Make the background black (specified as RGB)
-    background(0, 0, 0);
+    background(100, 100, 100);
 
     // Draw a pyramid
     // How many levels for the pyramid
-    const levels = 10;
+    const levels = 50;
     // Loop through every level (backwards)
     for (let level = levels; level > 0; level--) {
         // Draw this layer
