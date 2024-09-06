@@ -1,7 +1,8 @@
 /**
- * Git Workflow Example
- * Pippin Barr
+ * Title of the Project (Git Workflow Example)
+ * Your Name (Ethan Armstrong)
  * 
+ * Description of the Project: 
  * Some sample code for playing with version control.
  * Draws a pyramid in the centre of the canvas and a
  * red circle at the user's mouse position.
