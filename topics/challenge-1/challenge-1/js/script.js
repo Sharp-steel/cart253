@@ -1,47 +1,46 @@
 /**
- * Title of Project
- * Author Name
+ * Challenge 1
+ * Ethan Armstrong
  * 
- * HOW EMBARRASSING! I HAVE NO DESCRIPTION OF MY PROJECT!
- * PLEASE REMOVE A GRADE FROM MY WORK IF IT'S GRADED!
+ * Here is my attempt at drawing the Italian flag.
  */
 
 "use strict";
 
 /**
- * OH LOOK I DIDN'T DESCRIBE SETUP!!
+ * Setting up the canvas.
 */
 function setup() {
     // A nice canvas square to work with
-    createCanvas(640, 640);
+    createCanvas(1000, 640);
 }
 
 
 /**
- * OOPS I DIDN'T DESCRIBE WHAT MY DRAW DOES!
+ * Drawing the Italian Flag.
 */
 function draw() {
-    // A grey background
-    background(150, 150, 150);
+    // A blue background
+    background(0, 100, 255);
 
-    // The main part of the record is red
+    // The green part of the flag
     push();
-    fill(255, 0, 0);
-    stroke(255, 255, 255);
-    ellipse(320, 320, 480, 480);
+    fill(0, 100, 0);
+    noStroke();
+    rect(200, 100, 200, 400)
     pop();
 
-    // The label on the record
+    // The white part of the flag
     push();
     fill(255, 255, 255);
     noStroke();
-    ellipse(320, 320, 140, 140);
+    rect(400, 100, 200, 400);
     pop();
 
-    // The hole in the record
+    // The red part of the flag
     push();
-    fill(150, 150, 150);
-    stroke(50, 50, 50);
-    ellipse(320, 320, 20, 20);
+    fill(255, 0, 0);
+    noStroke();
+    rect(600, 100, 200, 400);
     pop();
 }
