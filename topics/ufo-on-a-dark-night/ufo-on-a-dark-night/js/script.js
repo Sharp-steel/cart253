@@ -33,8 +33,29 @@ function setup() {
  * Displays a UFO
 */
 function draw() {
+    // Sky shade goes up
+    // The sky gradually turns bright white!
+    skyShade = skyShade + 1;
+    
     // Display the sky
     background(skyShade);
+
+    // The UFO goes right
+    // Course adjustment for Beetlegeuse
+    ufo.x = ufo.x + 0.5;
+
+    // The UFO goes up
+    // We have lift-off!
+    ufo.y = ufo.y - 2;
+
+    // UFO gradually becomes darker
+    // I mean, activating quantum thrust transition...
+    ufo.fill = ufo.fill * 0.999;
+
+    // UFO's dimensions become smaller over time
+    // ... as it flies away into the distance! ET... gone home...
+    ufo.width = ufo.width / 1.005;
+    ufo.height = ufo.height / 1.005;
 
     // Draw the UFO based on its properties
     push();
