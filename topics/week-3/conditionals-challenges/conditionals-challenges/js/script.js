@@ -51,7 +51,7 @@ const puck = {
   }
 
   function moveTarget () {
-    
+    const distance = dist(puckX, puckY, user.x, user.y);
   }
   
   /**
