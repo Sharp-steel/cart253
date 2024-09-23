@@ -9,16 +9,16 @@
 "use strict";
 
 /**
- * OH LOOK I DIDN'T DESCRIBE SETUP!!
+ * Creating the canvas
 */
 function setup() {
-
+    createCanvas (500, 500);
 }
 
 
 /**
- * OOPS I DIDN'T DESCRIBE WHAT MY DRAW DOES!
+ * Creating the scene
 */
 function draw() {
-
+    background(150, 150, 150);
 }
