@@ -52,28 +52,14 @@ function setup() {
  * Creating the scene
 */
 function draw() {
-    //Grey Background
-    background(150, 150, 150);
-    
-    // Changing the colour of the sky
-    if (mouseX < width){
-        background(200, 200, 255);
+    // When hovering over the canvas, change the weather from sunny to rainy
+    const mouseIsOverCanvas = (mouseX > 0 && mouseX < width && mouseY > 0 && mouseY < height);
+    if (mouseIsOverCanvas) {
+        rainyDay()
     }
     else {
-        background(150, 150, 150);
+        sunnyDay()
     }
-    if (mouseY < height){
-        background(200, 200, 255);
-    }
-    else {
-        background(200, 200, 255);
-    }
-    //Calling the thunderbolt
-    drawThunderbolt();
-    //Calling the cloud
-    drawCloud();
-    //Calling the rain
-    drawRain();
 }
 
 /** 
@@ -126,4 +112,28 @@ function mousePressed () {
     else if (thunderbolt.fill.a === 255) {
         thunderbolt.fill.a = 0;
     }
+}
+/**
+ * Adding the rainy elements
+ */
+function rainyDay () {
+    //Rainy Background
+    background(150, 150, 150);
+    //Calling the thunderbolt
+    drawThunderbolt();
+    //Calling the cloud
+    drawCloud();
+    //Calling the rain
+    drawRain();
+}
+/**
+ * Adding the sunny elements
+ */
+function sunnyDay () {
+    //Sunny Background
+    background(200, 200, 255);
+    //Calling the sun
+
+    //Calling the smaller clouds
+    
 }
