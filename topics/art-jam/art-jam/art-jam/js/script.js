@@ -2,8 +2,7 @@
  * Art Jam
  * Ethan Armstrong
  * 
- * HOW EMBARRASSING! I HAVE NO DESCRIPTION OF MY PROJECT!
- * PLEASE REMOVE A GRADE FROM MY WORK IF IT'S GRADED!
+ * An interactive thundercloud that changes from a sunny day to a thunderstorm with a lightning bolt.
  */
 
 "use strict";
