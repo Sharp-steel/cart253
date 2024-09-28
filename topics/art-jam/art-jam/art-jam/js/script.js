@@ -40,6 +40,23 @@ let rain = {
 }
 
 /**
+ * Creating the sun
+ */
+let sun = {
+    x: 430,
+    y: 70,
+    size: 120,
+    fill: "orange"
+}
+
+let sunnyCloud = {
+    x: 250,
+    y: 100,
+    size: 150,
+    fill: "#ffffff"
+}
+
+/**
  * Creating the canvas
 */
 function setup() {
@@ -103,6 +120,43 @@ function drawRain () {
 }
 
 /**
+ * Creating the function for the sun to show up
+ */
+function drawSun () {
+    push();
+    noStroke();
+    fill(sun.fill);
+    ellipse(sun.x, sun.y, sun.size);
+    pop();
+}
+
+/**
+ * Creating the function for the sunny clouds to show up
+ */
+function drawSunnyCloud () {
+    push();
+    noStroke();
+    fill(sunnyCloud.fill);
+    //First cloud
+    ellipse(sunnyCloud.x - 100, sunnyCloud.y + 25, sunnyCloud.size/1.25);
+    ellipse(sunnyCloud.x - sunnyCloud.size/2 - 80, sunnyCloud.y + 25, sunnyCloud.size/1.75);
+    ellipse(sunnyCloud.x + sunnyCloud.size/2 - 120, sunnyCloud.y + 25, sunnyCloud.size/1.75);
+    //Second cloud
+    ellipse(sunnyCloud.x + 20, sunnyCloud.y + 200, sunnyCloud.size);
+    ellipse(sunnyCloud.x - sunnyCloud.size/2 + 20, sunnyCloud.y + 200, sunnyCloud.size/1.25);
+    ellipse(sunnyCloud.x + sunnyCloud.size/2 + 20, sunnyCloud.y + 200, sunnyCloud.size/1.25);
+    //Third cloud
+    ellipse(sunnyCloud.x + 140, sunnyCloud.y + 340, sunnyCloud.size/2);
+    ellipse(sunnyCloud.x - sunnyCloud.size/2 + 180, sunnyCloud.y + 340, sunnyCloud.size/2.75);
+    ellipse(sunnyCloud.x + sunnyCloud.size/2 + 100, sunnyCloud.y + 340, sunnyCloud.size/2.75);
+    //Fourth cloud
+    ellipse(sunnyCloud.x - 140, sunnyCloud.y + 330, sunnyCloud.size/2);
+    ellipse(sunnyCloud.x - sunnyCloud.size/2 - 100, sunnyCloud.y + 330, sunnyCloud.size/2.75);
+    ellipse(sunnyCloud.x + sunnyCloud.size/2 - 180, sunnyCloud.y + 330, sunnyCloud.size/2.75);
+    pop();
+}
+
+/**
  * When the mouse is pressed, display thunderbolt
  */
 function mousePressed () {
@@ -133,7 +187,7 @@ function sunnyDay () {
     //Sunny Background
     background(200, 200, 255);
     //Calling the sun
-
+    drawSun();
     //Calling the smaller clouds
-    
+    drawSunnyCloud();
 }
