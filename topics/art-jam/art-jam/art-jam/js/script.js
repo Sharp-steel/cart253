@@ -168,6 +168,17 @@ function mousePressed () {
     }
 }
 /**
+ * When the mouse is released, vanish the thunderbolt
+ */
+function mouseReleased () {
+    if (thunderbolt.fill.a === 255) {
+        thunderbolt.fill.a = 0;
+    }
+    else if (thunderbolt.fill.a === 0) {
+        thunderbolt.fill.a = 255;
+    }
+}
+/**
  * Adding the rainy elements
  */
 function rainyDay () {
