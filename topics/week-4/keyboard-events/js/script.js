@@ -44,3 +44,27 @@ function draw() {
     ellipse(ball.x, ball.y, ball.size);
     pop();
 }
+
+/**
+ * Handle keypress:
+ * - r = make the ball red
+ * - b = make the ball blue
+ */
+function keyPressed(event) {
+    if (event.key === "r") {
+        ball.fill = ball.fills.red;
+    }
+    else if (event.key === "b") {
+        ball.fill = ball.fills.blue;
+    }
+}
+
+/**
+ * Handle keyreleased:
+ * - r or b = Set the ball back to default
+ */
+function keyReleased(event) {
+    if (event.key === "r" || event.key === "b") {
+        ball.fill = ball.fills.white;
+    }
+}
