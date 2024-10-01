@@ -192,6 +192,7 @@ function drawAirplane () {
     push();
     noStroke();
     fill(airplane.fill);
+    //Borrowed example code from the Variables in Practice: Movement exercise
     airplane.velocity.x += airplane.acceleration.x;
     airplane.velocity.y += airplane.acceleration.y;
     airplane.velocity.x = constrain(airplane.velocity.x, airplane.minVelocity.x, airplane.maxVelocity.x);
