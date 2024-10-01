@@ -107,6 +107,23 @@ function draw() {
     }
 }
 
+/**
+ * Creating the function for the rain to show up
+ */
+function drawRain () {
+    rain.y = map(mouseY, height/4, 7*height/4, 0, height, true);
+    push();
+    noStroke();
+    fill(rain.fill);
+    rect(rain.x - 50, rain.y + 200, rain.size, rain.height);
+    rect(rain.x + 215, rain.y + 150, rain.size, rain.height);
+    rect(rain.x - 20, rain.y + 40, rain.size, rain.height);
+    rect(rain.x - 120, rain.y + 120, rain.size, rain.height);
+    rect(rain.x + 160, rain.y + 20, rain.size, rain.height);
+    rect(rain.x + 125, rain.y + 175, rain.size, rain.height);
+    pop();
+}
+
 /** 
  * Creating the function for the cloud to show up
 */
@@ -128,23 +145,6 @@ function drawThunderbolt () {
     noStroke();
     fill(thunderbolt.fill.r, thunderbolt.fill.g, thunderbolt.fill.b, thunderbolt.fill.a);
     rect(thunderbolt.x - 25, thunderbolt.y -30, thunderbolt.size, thunderbolt.height);
-    pop();
-}
-
-/**
- * Creating the function for the rain to show up
- */
-function drawRain () {
-    push();
-    noStroke();
-    fill(rain.fill);
-    rect(rain.x - 50, rain.y + 200, rain.size, rain.height);
-    rect(rain.x + 215, rain.y + 150, rain.size, rain.height);
-    rect(rain.x - 20, rain.y + 40, rain.size, rain.height);
-    rect(rain.x - 120, rain.y + 120, rain.size, rain.height);
-    rect(rain.x + 160, rain.y + 20, rain.size, rain.height);
-    rect(rain.x + 125, rain.y + 175, rain.size, rain.height);
-    let m = map(mouseY, 50, 0, 200, 0);
     pop();
 }
 
@@ -236,10 +236,10 @@ function rainyDay () {
     background(150, 150, 150);
     //Calling the thunderbolt
     drawThunderbolt();
-    //Calling the cloud
-    drawCloud();
     //Calling the rain
     drawRain();
+    //Calling the cloud
+    drawCloud();
 }
 
 /**
