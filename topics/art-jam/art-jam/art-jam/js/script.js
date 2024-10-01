@@ -56,6 +56,29 @@ let sunnyCloud = {
     fill: "#ffffff"
 }
 
+let airplane = {
+    x: 0,
+    y: 500,
+    size: 50,
+    fill: "gray",
+    velocity: {
+        x: 3,
+        y: -1
+    },
+    minVelocity: {
+        x: -3,
+        y: -1.5
+    },
+    maxVelocity: {
+        x: 3,
+        y: 1.5
+    },
+    acceleration: {
+        x: 0.1,
+        y: -0.08
+    }    
+}
+
 /**
  * Creating the canvas
 */
@@ -63,7 +86,6 @@ function setup() {
     createCanvas (500, 500);
     noCursor();
 }
-
 
 /**
  * Creating the scene
@@ -157,6 +179,25 @@ function drawSunnyCloud () {
 }
 
 /**
+ * Creating the function for the airplane to show up
+ */
+function drawAirplane () {
+    push();
+    noStroke();
+    fill(airplane.fill);
+    airplane.velocity.x += airplane.acceleration.x;
+    airplane.velocity.y += airplane.acceleration.y;
+    airplane.velocity.x = constrain(airplane.velocity.x, airplane.minVelocity.x, airplane.maxVelocity.x);
+    airplane.velocity.y = constrain(airplane.velocity.y, airplane.minVelocity.y, airplane.maxVelocity.y);
+    airplane.x += airplane.velocity.x;
+    airplane.y += airplane.velocity.y;
+    ellipse(airplane.x, airplane.y, airplane.size);
+    triangle(airplane.x, airplane.y + 20, airplane.x, airplane.y - 20, airplane.x - 60, airplane.y);
+    triangle(airplane.x, airplane.y - 20, airplane.x, airplane.y + 20, airplane.x + 60, airplane.y);
+    pop();
+}
+
+/**
  * When the mouse is pressed, display thunderbolt
  */
 function mousePressed () {
@@ -167,6 +208,7 @@ function mousePressed () {
         thunderbolt.fill.a = 0;
     }
 }
+
 /**
  * When the mouse is released, vanish the thunderbolt
  */
@@ -178,6 +220,7 @@ function mouseReleased () {
         thunderbolt.fill.a = 255;
     }
 }
+
 /**
  * Adding the rainy elements
  */
@@ -191,6 +234,7 @@ function rainyDay () {
     //Calling the rain
     drawRain();
 }
+
 /**
  * Adding the sunny elements
  */
@@ -201,4 +245,6 @@ function sunnyDay () {
     drawSun();
     //Calling the smaller clouds
     drawSunnyCloud();
+    //Calling the airplane
+    drawAirplane();
 }
