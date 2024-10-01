@@ -49,6 +49,9 @@ let sun = {
     fill: "orange"
 }
 
+/**
+ * Creating the clouds in the sun
+ */
 let sunnyCloud = {
     x: 250,
     y: 100,
@@ -56,6 +59,9 @@ let sunnyCloud = {
     fill: "#ffffff"
 }
 
+/**
+ * Creating the airplane
+ */
 let airplane = {
     x: 0,
     y: 500,
@@ -138,6 +144,7 @@ function drawRain () {
     rect(rain.x - 120, rain.y + 120, rain.size, rain.height);
     rect(rain.x + 160, rain.y + 20, rain.size, rain.height);
     rect(rain.x + 125, rain.y + 175, rain.size, rain.height);
+    let m = map(mouseY, 50, 0, 200, 0);
     pop();
 }
 
