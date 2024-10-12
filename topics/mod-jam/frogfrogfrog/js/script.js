@@ -63,7 +63,11 @@ let score = 0;
 // The current state
 let state = "title";
 
-// let soundEffect = 
+let soundEffect = undefined;
+
+function preload() {
+    soundEffect = loadSound("assets/sounds/bark.wav");
+}
 
 // Our fly
 // Has a position, size, and speed of horizontal movement
@@ -98,7 +102,10 @@ function draw() {
 
 function title() {
     push();
-    text("Frogfrogfrog", 100, 100);
+    background("#008000");
+    textSize(48);
+    text("Frogfrogfrog", 190, 200);
+    text("PRESS TO PLAY!", 140, 300);
     pop();
 }
 
@@ -111,11 +118,17 @@ function gameStart () {
     drawFly();
     drawFrog();
     drawScore();
+    if (score === 1) {
+        state = "gameOver";
+    }
 }
 
 function gameOver () {
     push();
-    text("FROGGY IS FULL, GAME OVER!", 100, 100);
+    background("#008000");
+    textSize(48);
+    text("FROGGY IS FULL!", 120, 200);
+    text("GAME OVER!", 170, 300);
     pop();
 }
 
@@ -222,6 +235,8 @@ function drawScore() {
     pop();
 }
 
+
+
 /**
  * Handles the tongue overlapping the fly
  */
@@ -246,11 +261,15 @@ function checkTongueFlyOverlap() {
 function mousePressed () {
     if (state === "title") {
         state = "gameStart";
+        soundEffect.loop();
     }
     else if (state === "gameStart") {
         if (frog.tongue.state === "idle") {
             frog.tongue.state = "outbound";
         }
+    }
+    else if (state === "gameOver") {
+        state = "title";
     }
 }
 
