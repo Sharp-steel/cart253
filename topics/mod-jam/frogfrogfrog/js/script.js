@@ -95,6 +95,9 @@ function draw() {
     else if (state === "gameStart") {
         gameStart();
     }
+    else if (state === "instructions") {
+        instructions();
+    }
     else if (state === "gameOver") {
         gameOver();
     }
@@ -118,7 +121,7 @@ function gameStart () {
     drawFly();
     drawFrog();
     drawScore();
-    if (score === 1) {
+    if (score === 10) {
         state = "gameOver";
     }
 }
@@ -129,6 +132,15 @@ function gameOver () {
     textSize(48);
     text("FROGGY IS FULL!", 120, 200);
     text("GAME OVER!", 170, 300);
+    pop();
+}
+
+function instructions () {
+    push();
+    background("#008000");
+    textSize(48);
+    text("Instructions:", 120, 200);
+    text("Use the keyboard to move the tongue with W for going up, A for going left and D for going right!", 0, 300);
     pop();
 }
 
@@ -260,8 +272,11 @@ function checkTongueFlyOverlap() {
  */
 function mousePressed () {
     if (state === "title") {
-        state = "gameStart";
+        state = "instructions";
         soundEffect.loop();
+    }
+    else if (state === "instructions") {
+        state = "gameStart";
     }
     else if (state === "gameStart") {
         if (frog.tongue.state === "idle") {
