@@ -138,9 +138,10 @@ function gameOver () {
 function instructions () {
     push();
     background("#008000");
-    textSize(48);
-    text("Instructions:", 120, 200);
-    text("Use the keyboard to move the tongue with W for going up, A for going left and D for going right!", 0, 300);
+    textSize(24);
+    text("Instructions:", 250, 100);
+    text("Use the keyboard to move the tongue.", 130, 200);
+    text("W for going up, A for going left and D for going right!", 50, 300);
     pop();
 }
 
@@ -270,7 +271,7 @@ function checkTongueFlyOverlap() {
 /**
  * Launch the tongue on click (if it's not launched yet)
  */
-function mousePressed () {
+function mousePressed() {
     if (state === "title") {
         state = "instructions";
         soundEffect.loop();
@@ -278,13 +279,15 @@ function mousePressed () {
     else if (state === "instructions") {
         state = "gameStart";
     }
-    else if (state === "gameStart") {
-        if (frog.tongue.state === "idle") {
-            frog.tongue.state = "outbound";
-        }
-    }
     else if (state === "gameOver") {
         state = "title";
+    }
+}
+
+function keyPressed(event) {
+    if (event.key === "w") {
+        moveTongue();
+        frog.tongue.state = "outbound";
     }
 }
 
