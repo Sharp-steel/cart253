@@ -48,14 +48,21 @@ const frog = {
     },
     // The frog's tongue has a position, size, speed, and state
     tongue: {
-        x: undefined,
+        x: 320,
         y: 480,
         size: 20,
         speed: 20,
+        speedX: 20,
         // Determines how the tongue moves each frame
         state: "idle" // State can be: idle, outbound, inbound
     }
 };
+
+let pond = {
+    x: 320,
+    y: 240,
+    size: 500
+}
 
 // The current score
 let score = 0;
@@ -72,10 +79,11 @@ function preload() {
 // Our fly
 // Has a position, size, and speed of horizontal movement
 const fly = {
-    x: 0,
+    x: 600,
     y: 200, // Will be random
     size: 10,
-    speed: 3
+    speedX: 3,
+    speedY: 3
 };
 
 /**
@@ -103,6 +111,9 @@ function draw() {
     }
 }
 
+/**
+ * Setting the different game states
+ */
 function title() {
     push();
     background("#008000");
@@ -113,10 +124,12 @@ function title() {
 }
 
 function gameStart () {
-    background("#87ceeb");
+    background("#008000");
+    drawPond();
     moveFly();
-    moveFrog();
-    moveTongue();
+    moveTongueUp();
+    moveTongueLeft();
+    moveTongueRight();
     checkTongueFlyOverlap();
     drawFly();
     drawFrog();
@@ -151,7 +164,13 @@ function instructions () {
  */
 function moveFly() {
     // Move the fly
-    fly.x += fly.speed;
+    fly.x += fly.speedX;
+    fly.y += fly.speedY;
+    let percentage = random();
+    if (percentage <= 0.1) {
+        fly.speedX = random(-6, 6);
+        fly.speedY = random(-6, 6);
+    }
     // Handle the fly going off the canvas
     if (fly.x > width) {
         resetFly();
@@ -178,18 +197,11 @@ function resetFly() {
 }
 
 /**
- * Moves the frog to the mouse position on x
- */
-function moveFrog() {
-    frog.body.x = mouseX;
-}
-
-/**
  * Handles moving the tongue based on its state
  */
-function moveTongue() {
+function moveTongueUp() {
     // Tongue matches the frog's x
-    frog.tongue.x = frog.body.x;
+    // frog.tongue.x = frog.body.x;
     // If the tongue is idle, it doesn't do anything
     if (frog.tongue.state === "idle") {
         // Do nothing
@@ -210,6 +222,56 @@ function moveTongue() {
             frog.tongue.state = "idle";
         }
     }
+}
+
+function moveTongueLeft() {
+    // If the tongue is idle, it doesn't do anything
+    if (frog.tongue.state === "idle") {
+        // Do nothing
+    }
+    else if (frog.tongue.state === "leftoutbound") {
+        frog.tongue.x += -frog.tongue.speedX;
+        frog.tongue.y += -frog.tongue.speed;
+        // The tongue bounces back if it hits the top
+        if (frog.tongue.x <= 0 || frog.tongue.y <= 0) {
+            frog.tongue.state = "leftinbound";
+        }
+        console.log(frog.tongue.speedX);
+    }
+    // If the tongue is inbound, it moves down
+    else if (frog.tongue.state === "leftinbound") {
+        frog.tongue.x += frog.tongue.speedX;
+        frog.tongue.y += frog.tongue.speed;
+        // The tongue stops if it hits the bottom
+        if (frog.tongue.y >= height) {
+            frog.tongue.state = "idle";
+        }
+    }
+}
+
+function moveTongueRight() {
+// If the tongue is idle, it doesn't do anything
+if (frog.tongue.state === "idle") {
+    // Do nothing
+}
+else if (frog.tongue.state === "rightoutbound") {
+    frog.tongue.x += frog.tongue.speedX;
+    frog.tongue.y += -frog.tongue.speed;
+    // The tongue bounces back if it hits the top
+    if (frog.tongue.x >= width || frog.tongue.y <= 0) {
+        frog.tongue.state = "rightinbound";
+    }
+    console.log(frog.tongue.speedX);
+}
+// If the tongue is inbound, it moves down
+else if (frog.tongue.state === "rightinbound") {
+    frog.tongue.x += -frog.tongue.speedX;
+    frog.tongue.y += frog.tongue.speed;
+    // The tongue stops if it hits the bottom
+    if (frog.tongue.y >= height) {
+        frog.tongue.state = "idle";
+    }
+}
 }
 
 /**
@@ -235,6 +297,14 @@ function drawFrog() {
     fill("#00ff00");
     noStroke();
     ellipse(frog.body.x, frog.body.y, frog.body.size);
+    pop();
+}
+
+function drawPond () {
+    push();
+    fill("#87ceeb");
+    noStroke();
+    ellipse(pond.x, pond.y, pond.size);
     pop();
 }
 
@@ -264,7 +334,15 @@ function checkTongueFlyOverlap() {
         // Reset the fly
         resetFly();
         // Bring back the tongue
-        frog.tongue.state = "inbound";
+        if (frog.tongue.state === "outbound") {
+            frog.tongue.state = "inbound";
+        }
+        else if (frog.tongue.state === "leftoutbound") {
+            frog.tongue.state = "leftinbound";
+        }
+        else {
+            frog.tongue.state = "rightinbound";
+        }
     }
 }
 
@@ -281,13 +359,23 @@ function mousePressed() {
     }
     else if (state === "gameOver") {
         state = "title";
+        score = 0;
     }
 }
 
 function keyPressed(event) {
-    if (event.key === "w") {
-        moveTongue();
-        frog.tongue.state = "outbound";
+    if (frog.tongue.state === "idle") {
+        if (event.key === "w") {
+            moveTongueUp();
+            frog.tongue.state = "outbound";
+        }
+        if (event.key === "a") {
+            moveTongueLeft();
+            frog.tongue.state = "leftoutbound";
+        }
+        if (event.key === "d") {
+            moveTongueRight();
+            frog.tongue.state = "rightoutbound";
+        }
     }
 }
-
