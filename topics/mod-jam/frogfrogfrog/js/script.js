@@ -1,38 +1,37 @@
 /**
  * Frogfrogfrog
- * Pippin Barr
+ * Ethan Armstrong
  * 
- * A game of catching flies with your frog-tongue
+ * A game where you catch flies whiel controlling your frog-tongue
  * 
  * Instructions:
- * - Move the frog with your mouse
- * - Click to launch the tongue
+ * - Move the tongue with W, A, D
  * - Catch flies
+ * - Get a score of 10 to win
  * 
  * Made with p5
  * https://p5js.org/
  * 
  * New feature design:
  * Add 1 to the score every time you catch a fly
- * When frog eats 50 flies, frog is full
+ * When frog eats 10 flies, frog is full
  * 
  * New feature:
  * When the tongue catches the fly add 1 to the score
  * Make the fly move in a random direction
  * Add a game over and start screen
  * 
- * Pseudcode:
+ * Pseudocode:
  * 
  * At the top:
  * score = 0
  * 
  * In the if-state that determines the fly was caught:
- * score = score + 1 / score += 1 / score ++
- * If score = 50, game over
+ * If score = 10, game over
  * 
  * In draw:
  * Display score in the bottom left
- * Display GameOver
+ * Display Title, Instructions, GameOver
  * 
  */
 
@@ -58,6 +57,7 @@ const frog = {
     }
 };
 
+// Draws the pond
 let pond = {
     x: 320,
     y: 240,
@@ -72,8 +72,11 @@ let state = "title";
 
 let soundEffect = undefined;
 
+/**
+ * Loads the ribbit sound effect
+ */
 function preload() {
-    soundEffect = loadSound("assets/sounds/bark.wav");
+    soundEffect = loadSound("assets/sounds/ribbit.wav");
 }
 
 // Our fly
@@ -96,6 +99,9 @@ function setup() {
     resetFly();
 }
 
+/**
+ * Draws the elements on the canvas
+ */
 function draw() {
     if (state === "title") {
         title();
@@ -123,6 +129,9 @@ function title() {
     pop();
 }
 
+/**
+ * Setting the Game Start state
+ */
 function gameStart () {
     background("#008000");
     drawPond();
@@ -139,6 +148,9 @@ function gameStart () {
     }
 }
 
+/**
+ * Sets the Game Over screen after winning
+ */
 function gameOver () {
     push();
     background("#008000");
@@ -148,6 +160,9 @@ function gameOver () {
     pop();
 }
 
+/**
+ * Sets the Instructions screen after clicking on the title screen
+ */
 function instructions () {
     push();
     background("#008000");
@@ -159,8 +174,8 @@ function instructions () {
 }
 
 /**
- * Moves the fly according to its speed
- * Resets the fly if it gets all the way to the right
+ * Moves the fly in random directions
+ * Constrain the fly to the canvas width and height
  */
 function moveFly() {
     // Move the fly
@@ -171,8 +186,11 @@ function moveFly() {
         fly.speedX = random(-6, 6);
         fly.speedY = random(-6, 6);
     }
-    // Handle the fly going off the canvas
+    // Handles the fly going off the canvas
     if (fly.x > width) {
+        resetFly();
+    }
+    else if (fly.y > height) {
         resetFly();
     }
 }
@@ -197,11 +215,9 @@ function resetFly() {
 }
 
 /**
- * Handles moving the tongue based on its state
+ * Handles moving the tongue upwards based on its state
  */
 function moveTongueUp() {
-    // Tongue matches the frog's x
-    // frog.tongue.x = frog.body.x;
     // If the tongue is idle, it doesn't do anything
     if (frog.tongue.state === "idle") {
         // Do nothing
@@ -224,6 +240,9 @@ function moveTongueUp() {
     }
 }
 
+/**
+ * Handles moving the tongue to the left based on its state
+ */
 function moveTongueLeft() {
     // If the tongue is idle, it doesn't do anything
     if (frog.tongue.state === "idle") {
@@ -232,7 +251,7 @@ function moveTongueLeft() {
     else if (frog.tongue.state === "leftoutbound") {
         frog.tongue.x += -frog.tongue.speedX;
         frog.tongue.y += -frog.tongue.speed;
-        // The tongue bounces back if it hits the top
+        // The tongue bounces back if it hits the side
         if (frog.tongue.x <= 0 || frog.tongue.y <= 0) {
             frog.tongue.state = "leftinbound";
         }
@@ -249,6 +268,9 @@ function moveTongueLeft() {
     }
 }
 
+/**
+ * Handles moving the tongue to the right based on its state
+ */
 function moveTongueRight() {
 // If the tongue is idle, it doesn't do anything
 if (frog.tongue.state === "idle") {
@@ -257,7 +279,7 @@ if (frog.tongue.state === "idle") {
 else if (frog.tongue.state === "rightoutbound") {
     frog.tongue.x += frog.tongue.speedX;
     frog.tongue.y += -frog.tongue.speed;
-    // The tongue bounces back if it hits the top
+    // The tongue bounces back if it hits the side
     if (frog.tongue.x >= width || frog.tongue.y <= 0) {
         frog.tongue.state = "rightinbound";
     }
@@ -300,6 +322,9 @@ function drawFrog() {
     pop();
 }
 
+/**
+ * Displays the pond
+ */
 function drawPond () {
     push();
     fill("#87ceeb");
@@ -308,6 +333,9 @@ function drawPond () {
     pop();
 }
 
+/**
+ * Displays the score
+ */
 function drawScore() {
     push();
     fill(0);
