@@ -64,6 +64,12 @@ let pond = {
     size: 500
 }
 
+let splat = {
+    x: 0,
+    y: 500,
+    size: 30,
+}
+
 // The current score
 let score = 0;
 
@@ -83,7 +89,7 @@ function preload() {
 // Has a position, size, and speed of horizontal movement
 const fly = {
     x: 600,
-    y: 200, // Will be random
+    y: 200,
     size: 10,
     speedX: 3,
     speedY: 3
@@ -187,10 +193,10 @@ function moveFly() {
         fly.speedY = random(-6, 6);
     }
     // Handles the fly going off the canvas
-    if (fly.x > width) {
+    if (fly.x > width || fly.x < 0) {
         resetFly();
     }
-    else if (fly.y > height) {
+    else if (fly.y > height || fly.y < 0) {
         resetFly();
     }
 }
@@ -207,11 +213,22 @@ function drawFly() {
 }
 
 /**
- * Resets the fly to the left with a random y
+ * Resets the fly
  */
 function resetFly() {
-    fly.x = 0;
-    fly.y = random(0, 300);
+    fly.x = 300;
+    fly.y = 150;
+}
+
+function drawSplat() {
+    splat.x = fly.x;
+    splat.y = fly.y;
+    push();
+    noStroke();
+    fill("#FF0000");
+    triangle(splat.x, splat.y + 15, splat.x, splat.y - 15, splat.x - 40, splat.y);
+    triangle(splat.x, splat.y - 15, splat.x, splat.y + 15, splat.x + 40, splat.y);
+    pop();
 }
 
 /**
@@ -359,13 +376,15 @@ function checkTongueFlyOverlap() {
     if (eaten) {
         // Increase the score
         score = score + 1;
+        // Draws the Splat effect
+        drawSplat();
         // Reset the fly
         resetFly();
-        // Bring back the tongue
-        if (frog.tongue.state === "outbound") {
+        // Bring back the tongue on all sides
+        if (frog.tongue.state === "outbound" || frog.tongue.state === "inbound") {
             frog.tongue.state = "inbound";
         }
-        else if (frog.tongue.state === "leftoutbound") {
+        else if (frog.tongue.state === "leftoutbound" || frog.tongue.state === "leftinbound") {
             frog.tongue.state = "leftinbound";
         }
         else {
