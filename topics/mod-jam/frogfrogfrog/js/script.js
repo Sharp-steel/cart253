@@ -68,6 +68,7 @@ let splat = {
     x: 0,
     y: 500,
     size: 30,
+    flyEaten: false
 }
 
 // The current score
@@ -237,7 +238,7 @@ function drawSplat() {
 function moveTongueUp() {
     // If the tongue is idle, it doesn't do anything
     if (frog.tongue.state === "idle") {
-        // Do nothing
+        splat.flyEaten = false;
     }
     // If the tongue is outbound, it moves up
     else if (frog.tongue.state === "outbound") {
@@ -250,8 +251,18 @@ function moveTongueUp() {
     // If the tongue is inbound, it moves down
     else if (frog.tongue.state === "inbound") {
         frog.tongue.y += frog.tongue.speed;
+        if (splat.flyEaten) {
+            fly.speedX = 0;
+            fly.speedY = 0;
+            drawSplat();
+        }
         // The tongue stops if it hits the bottom
         if (frog.tongue.y >= height) {
+            if (splat.flyEaten) {
+                fly.speedX = 3;
+                fly.speedY = 3;
+                resetFly();
+            }
             frog.tongue.state = "idle";
         }
     }
@@ -263,7 +274,7 @@ function moveTongueUp() {
 function moveTongueLeft() {
     // If the tongue is idle, it doesn't do anything
     if (frog.tongue.state === "idle") {
-        // Do nothing
+        splat.flyEaten = false;
     }
     else if (frog.tongue.state === "leftoutbound") {
         frog.tongue.x += -frog.tongue.speedX;
@@ -278,8 +289,18 @@ function moveTongueLeft() {
     else if (frog.tongue.state === "leftinbound") {
         frog.tongue.x += frog.tongue.speedX;
         frog.tongue.y += frog.tongue.speed;
+        if (splat.flyEaten) {
+            fly.speedX = 0;
+            fly.speedY = 0;
+            drawSplat();
+        }
         // The tongue stops if it hits the bottom
         if (frog.tongue.y >= height) {
+            if (splat.flyEaten) {
+                fly.speedX = 3;
+                fly.speedY = 3;
+                resetFly();
+            }
             frog.tongue.state = "idle";
         }
     }
@@ -291,7 +312,7 @@ function moveTongueLeft() {
 function moveTongueRight() {
 // If the tongue is idle, it doesn't do anything
 if (frog.tongue.state === "idle") {
-    // Do nothing
+    splat.flyEaten = false;
 }
 else if (frog.tongue.state === "rightoutbound") {
     frog.tongue.x += frog.tongue.speedX;
@@ -306,8 +327,18 @@ else if (frog.tongue.state === "rightoutbound") {
 else if (frog.tongue.state === "rightinbound") {
     frog.tongue.x += -frog.tongue.speedX;
     frog.tongue.y += frog.tongue.speed;
+    if (splat.flyEaten) {
+        fly.speedX = 0;
+        fly.speedY = 0;
+        drawSplat();
+    }
     // The tongue stops if it hits the bottom
     if (frog.tongue.y >= height) {
+        if (splat.flyEaten) {
+            fly.speedX = 3;
+            fly.speedY = 3;
+            resetFly();
+        }
         frog.tongue.state = "idle";
     }
 }
@@ -376,10 +407,8 @@ function checkTongueFlyOverlap() {
     if (eaten) {
         // Increase the score
         score = score + 1;
-        // Draws the Splat effect
-        drawSplat();
-        // Reset the fly
-        resetFly();
+        // Checks if the splat can be displayed
+        splat.flyEaten = true;
         // Bring back the tongue on all sides
         if (frog.tongue.state === "outbound" || frog.tongue.state === "inbound") {
             frog.tongue.state = "inbound";
