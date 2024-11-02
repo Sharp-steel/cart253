@@ -217,7 +217,7 @@ function drawFly() {
  * Resets the fly
  */
 function resetFly() {
-    fly.x = 300;
+    fly.x = 310;
     fly.y = 150;
 }
 
