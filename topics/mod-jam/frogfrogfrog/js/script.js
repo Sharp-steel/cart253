@@ -428,10 +428,13 @@ function checkTongueFlyOverlap() {
 function mousePressed() {
     if (state === "title") {
         state = "instructions";
-        soundEffect.loop();
     }
     else if (state === "instructions") {
         state = "gameStart";
+        soundEffect.loop();
+    }
+    else if (state === "gameStart") {
+        soundEffect.pause();
     }
     else if (state === "gameOver") {
         state = "title";
