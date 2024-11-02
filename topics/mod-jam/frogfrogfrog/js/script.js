@@ -152,6 +152,7 @@ function gameStart () {
     drawScore();
     if (score === 10) {
         state = "gameOver";
+        soundEffect.pause();
     }
 }
 
@@ -432,9 +433,6 @@ function mousePressed() {
     else if (state === "instructions") {
         state = "gameStart";
         soundEffect.loop();
-    }
-    else if (state === "gameStart") {
-        soundEffect.pause();
     }
     else if (state === "gameOver") {
         state = "title";
