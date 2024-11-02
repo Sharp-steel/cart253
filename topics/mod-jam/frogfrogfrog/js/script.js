@@ -217,8 +217,8 @@ function drawFly() {
  * Resets the fly
  */
 function resetFly() {
-    fly.x = 310;
-    fly.y = 150;
+    fly.x = 200;
+    fly.y = 100;
 }
 
 function drawSplat() {
