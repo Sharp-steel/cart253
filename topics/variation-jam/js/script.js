@@ -247,20 +247,6 @@ function mousePressed() {
     else if (state === "instructions") {
         state = "gameSelect";
     }
-    else if (state === "gameSelect") {
-        if (mouseIsInsideShape(easy)) {
-            easy.hover = true;
-        } 
-        else {
-            easy.hover = false;
-        }
-        if (easy.hover) {
-            fill(easy.fillHover);
-        } 
-        else {
-            fill(easy.fill.r, easy.fill.g, easy.fill.b, easy.fill.alpha);
-        }
-    }
     else if (state === "gameOver") {
         state = "title";
         score = 0;
@@ -275,13 +261,13 @@ function keyPressed(event) {
     if (event.key === "w") {
         ;
     }
-    if (event.key === "a") {
+    else if (event.key === "a") {
         ;
     }
-    if (event.key === "s") {
+    else if (event.key === "s") {
         ;
     }
-    if (event.key === "d") {
+    else if (event.key === "d") {
         ;
     }
 }

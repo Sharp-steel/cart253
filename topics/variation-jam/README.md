@@ -6,7 +6,7 @@ Ethan Armstrong
 
 ## Description
 
-<!-- This description should help the reader understand what the program is, what any controls do, and perhaps what the desired experience it. -->
+A game where you have to avoid the critters at all costs (Or eat them that's up to you). Press WASD to move your character. Try to win within 30 seconds or eat as many critters as you can, depending on the variation you have selected.
 
 ## Credits
 
