@@ -26,21 +26,19 @@
  * - Play games (event changes)
  * - If win/lose, go back to start screen (boolean)
  * 
- * 
- * 
- * 
  **/
 
-// let soundEffect = undefined;
-
-// /**
-//  * Loads the sound effect
-//  */
-// function preload() {
-//     soundEffect = loadSound("assets/sounds/.wav");
-// }
-
 "use strict";
+
+// Sound Effect
+let soundEffect = undefined;
+
+/**
+ * Loads the sound effect
+ */
+function preload() {
+    soundEffect = loadSound("assets/sounds/sneakywalk.wav");
+}
 
 // Current Time for Var. 1
 let time = 0;
@@ -52,14 +50,18 @@ let score = 0;
 const guy = {
     x: 725,
     y: 375,
-    size: 50
+    size: 50,
+    speedX: 3,
+    speedY: 3
 };
 
-// Our critters
-const critters = {
-    x: undefined,
-    y: undefined,
-    size: 10
+// Our critter
+const critter = {
+    x: 725,
+    y: 400,
+    size: 10,
+    speedX: 3,
+    speedY: 3
 }
 
 let state = "title";
@@ -72,7 +74,7 @@ function setup() {
 }
 
 /**
- * Draws the elements on the canvas
+ * Draws the elements and the current state on the canvas
 */
 function draw() {
     if (state === "title") {
@@ -86,15 +88,12 @@ function draw() {
     }
     else if (state === "var1") {
         drawVar1();
-        drawGuy();
     }
     else if (state === "var2") {
         drawVar2();
-        drawGuy();
     }
     else if (state === "var3") {
         drawVar3();
-        drawGuy();
     }
     else if (state === "gameOver") {
         drawGameOver();
@@ -129,16 +128,74 @@ function drawGameSelect() {
     background("#f27e42");
     textSize(24);
     text("Select your Variation!", 630, 150);
-    text("AVOIDANCE", 675, 250);
-    text("CONSUMPTION", 655, 350);
-    text("GROWTH", 690, 450);
+    text("EVASION (Press E)", 675, 250);
+    text("CONSUMPTION (Press C)", 655, 350);
+    text("GROWTH (Press G)", 690, 450);
     pop();
 }
 
-function variationPress() {
-
+function drawVar1() {
+    background("#f27e42");
+    drawGuy();
+    drawCritter();
+    drawTimer();
+    checkVar1Overlap();
+    moveGuyUp();
+    moveGuyDown();
+    moveGuyLeft();
+    moveGuyRight();
+    //If survive 30 seconds, the game ends
+    if (time === 30) {
+        state = "gameOver";
+        soundEffect.pause();
+    }
 }
 
+function drawVar2() {
+    background("#f27e42");
+    drawGuy();
+    drawCritter();
+    drawScore();
+    checkVar2Overlap();
+    moveGuyUp();
+    moveGuyDown();
+    moveGuyLeft();
+    moveGuyRight();
+    //If you eat 50 critters, the game ends
+    if (score === 50) {
+        state = "gameOver";
+        soundEffect.pause();
+    }
+}
+
+function drawVar3() {
+    background("#f27e42");
+    drawGuy();
+    drawCritter();
+    checkVar3Overlap();
+    moveGuyUp();
+    moveGuyDown();
+    moveGuyLeft();
+    moveGuyRight();
+    //If the guy's size is over 1000, the game ends
+    if (guy.size === 1000) {
+        state = "gameOver";
+        soundEffect.pause();
+    }
+}
+
+function drawGameOver() {
+    push();
+    background("#008000");
+    textSize(48);
+    text("GAME OVER!", 250, 250);
+    text("Click to go back to the title", 100, 350)
+    pop();
+}
+
+/**
+ * Drawing the guy
+ */
 function drawGuy() {
     push();
     noStroke();
@@ -147,94 +204,90 @@ function drawGuy() {
     pop();
 }
 
-// function drawAvoidanceButton() {
-//     // push();
-//     // noStroke();
-//     // fill("#fff");
-//     // rect(675, 225, 140, 30);
-//     // text("AVOIDANCE", 675, 250);
-//     // pop();
-//     push();
-//     noStroke();
-//     easy.x = width / 6;
-//     easy.y = (height / 6) * 5;
-
-//     //Create a hover effect
-//     if (mouseIsInsideShape(easy)) {
-//         easy.hover = true;
-//     } else {
-//         easy.hover = false;
-//     }
-//     if (easy.hover) {
-//         fill(easy.fillHover);
-//     } else {
-//         fill(easy.fill.r, easy.fill.g, easy.fill.b, easy.fill.alpha);
-//     }
-
-//     rect(easy.x, easy.y, easy.width, easy.height);
-
-//     //text inside the button.
-//     fill(255);
-//     textAlign(CENTER, CENTER);
-//     textSize(20);
-//     text(`Avoidance`, easy.x, easy.y);
-//     pop();
-// }
-
-// function drawConsumptionButton() {
-//     push();
-//     noStroke();
-//     fill("#fff");
-//     rect(655, 325, 180, 30);
-//     pop();
-// }
-
-// function drawGrowthButton() {
-//     push();
-//     noStroke();
-//     fill("#fff");
-//     rect(690, 425, 110, 30);
-//     pop();
-// }
-
-function drawVar1() {
+/**
+ * Drawing the critters
+ */
+function drawCritter() {
     push();
-    background("#f27e42");
-    textSize(24);
-    text("Var. 1", 650, 150);
+    noStroke();
+    fill("#000000");
+    ellipse(critter.x, critter.y, critter.size);
     pop();
 }
 
-function drawVar2() {
-    push();
-    background("#f27e42");
-    textSize(24);
-    text("Var. 2", 650, 150);
-    pop();
+// Moving the guy up after pressing W
+function moveGuyUp() {
+
 }
 
-function drawVar3() {
-    push();
-    background("#f27e42");
-    textSize(24);
-    text("Var. 3", 650, 150);
-    pop();
+// Moving the guy left after pressing A
+function moveGuyLeft() {
+
 }
 
-function drawGameOver() {
+// Moving the guy down after pressing S
+function moveGuyDown() {
+
+}
+
+// Moving the guy right after pressing D
+function moveGuyRight() {
+
+}
+
+/**
+ * Displays the score
+ */
+function drawScore() {
     push();
-    background("#008000");
+    fill(0);
+    noStroke();
     textSize(48);
-    text("FROGGY IS FULL!", 120, 200);
-    text("GAME OVER!", 170, 300);
+    textAlign(LEFT, BOTTOM);
+    text(score, width - 625, 480);
     pop();
 }
 
 /**
- * Drawing the critters
+ * Handles the guy overlapping the critters for Var1
  */
-function drawCritters() {
+function checkVar1Overlap() {
+    // Get distance from guy to critter
+    const d = dist(guy.x, guy.y, critter.x, critter.y);
+    // Check if it's an overlap
+    const eaten = (d < guy.size/2 + critter.size/2);
+    if (eaten) {
+        // Trigger game over screen
+        state = "gameOver";
+    }
+}
 
+/**
+ * Handles the guy overlapping the critters for Var2
+ */
+function checkVar2Overlap() {
+    // Get distance from guy to critter
+    const d = dist(guy.x, guy.y, critter.x, critter.y);
+    // Check if it's an overlap
+    const eaten = (d < guy.size/2 + critter.size/2);
+    if (eaten) {
+        // Increase the score
+        score = score + 1;
+    }
+}
+
+/**
+ * Handles the guy overlapping the critters for Var3
+ */
+function checkVar3Overlap() {
+    // Get distance from guy to critter
+    const d = dist(guy.x, guy.y, critter.x, critter.y);
+    // Check if it's an overlap
+    const eaten = (d < guy.size/2 + critter.size/2);
+    if (eaten) {
+        // Increase the guy's size
+        guy.size = guy.size + 50;
+    }
 }
 
 /**
@@ -258,16 +311,34 @@ function mousePressed() {
  * Game Controls
  */
 function keyPressed(event) {
-    if (event.key === "w") {
-        ;
+    // Selects variation based on the key pressed
+    if (state === "gameSelect") {
+        if (event.key === "e") {
+            state = "var1";
+            soundEffect.loop();
+        }
+        if (event.key === "c") {
+            state = "var2";
+            soundEffect.loop();
+        }
+        if (event.key === "g") {
+            state = "var3";
+            soundEffect.loop();
+        }
     }
-    else if (event.key === "a") {
-        ;
-    }
-    else if (event.key === "s") {
-        ;
-    }
-    else if (event.key === "d") {
-        ;
+    // Keys used to control our guy
+    if (state === "var1" || state === "var2" || state === "var3") {
+        if (event.key === "w") {
+            moveGuyUp();
+        }
+        if (event.key === "a") {
+            moveGuyLeft();
+        }
+        if (event.key === "s") {
+            moveGuyDown();
+        }
+        if (event.key === "d") {
+            moveGuyRight();
+        }
     }
 }
