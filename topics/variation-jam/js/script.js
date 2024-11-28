@@ -197,23 +197,52 @@ function drawGuy() {
     pop();
 }
 
+/**
+ * Moving the guy
+ */
 function moveGuy() {
     guy.x += guy.velocity.x;
     guy.y += guy.velocity.y;
-    console.log(guy.velocity.x);
-    console.log(guy.velocity.y);
+}
+
+function addCritter() {
+    const critter = createCritter();
+    bugs.push(bug);
+}
+
+/**
+ * Creating the critters
+ */
+function createCritter() {
+    const critter = {
+        x: random(0, width),
+        y: random(0, height),
+        velocity: {
+            x: random(1, 5),
+            y: random(1, 5),
+        },
+        size: 10
+    };
+    return bug;
 }
 
 /**
  * Drawing the critters
  */
 function drawCritter() {
-    const 
     push();
     fill("#000000");
     noStroke();
     ellipse(critter.x, critter.y, critter.size);
     pop();
+}
+
+/**
+ * Moves the critter according to its velocity
+ */
+function moveCritter(critter) {
+    critter.x += critter.velocity.x;
+    critter.y += critter.velocity.y;
 }
 
 // Moving the guy up after pressing W
