@@ -33,11 +33,15 @@
 // Sound Effect
 let soundEffect = undefined;
 
+// Ant Image
+let antImg = undefined;
+
 /**
  * Loads the sound effect
  */
 function preload() {
     soundEffect = loadSound("assets/sounds/sneakywalk.wav");
+    antImg = loadImage("assets/images/ant1.png");
 }
 
 // Current Time for Var. 1
@@ -58,7 +62,7 @@ let guy = {
     }
 };
 
-// Our critter
+// Critters array
 let critters = [];
 
 let state = "title";
@@ -134,9 +138,16 @@ function drawGameSelect() {
 function drawVar1() {
     background("#f27e42");
     drawGuy();
-    drawCritter();
+    while (critters.length < 50) {
+        addCritter();
+    }
+    console.log(state);
+    for (let critter of critters) {
+        moveCritter(critter);
+        drawCritter(critter);
+        checkVar1Overlap(critter);
+    };
     drawTimer();
-    checkVar1Overlap();
     moveGuy();
     //If survive 30 seconds, the game ends
     if (time === 30) {
@@ -153,25 +164,38 @@ function drawVar1() {
 function drawVar2() {
     background("#f27e42");
     drawGuy();
-    drawCritter();
+    while (critters.length < 50) {
+        addCritter();
+    }
+    for (let critter of critters) {
+        moveCritter(critter);
+        drawCritter(critter);
+        checkVar2Overlap(critter);
+    };
     drawScore();
-    checkVar2Overlap();
     moveGuy();
     //If you eat 50 critters, the game ends
     if (score === 50) {
         state = "gameOver";
         soundEffect.pause();
     }
+    console.log(state);
 }
 
 function drawVar3() {
     background("#f27e42");
     drawGuy();
-    drawCritter();
-    checkVar3Overlap();
+    while (critters.length < 5) {
+        addCritter();
+    }
+    for (let critter of critters) {
+        moveCritter(critter);
+        drawCritter(critter);
+        checkVar3Overlap(critter);
+    };
     moveGuy();
-    //If the guy's size is over 1000, the game ends
-    if (guy.size === 1000) {
+    //If the guy's size is equal to 800, the game ends
+    if (guy.size === 800) {
         state = "gameOver";
         soundEffect.pause();
     }
@@ -207,7 +231,7 @@ function moveGuy() {
 
 function addCritter() {
     const critter = createCritter();
-    bugs.push(bug);
+    critters.push(critter);
 }
 
 /**
@@ -218,18 +242,18 @@ function createCritter() {
         x: random(0, width),
         y: random(0, height),
         velocity: {
-            x: random(1, 5),
-            y: random(1, 5),
+            x: random(-5, 5),
+            y: random(-5, 5),
         },
         size: 10
     };
-    return bug;
+    return critter;
 }
 
 /**
  * Drawing the critters
  */
-function drawCritter() {
+function drawCritter(critter) {
     push();
     fill("#000000");
     noStroke();
@@ -243,6 +267,12 @@ function drawCritter() {
 function moveCritter(critter) {
     critter.x += critter.velocity.x;
     critter.y += critter.velocity.y;
+    if (critter.x <= 0 || critter.x >= width) {
+        critter.velocity.x = -critter.velocity.x;
+    }
+    if (critter.y <= 0 || critter.y >= height) {
+        critter.velocity.y = -critter.velocity.y;
+    }
 }
 
 // Moving the guy up after pressing W
@@ -294,9 +324,10 @@ function drawTimer() {
 /**
  * Handles the guy overlapping the critters for Var1
  */
-function checkVar1Overlap() {
+function checkVar1Overlap(critter) {
     // Get distance from guy to critter
     const d = dist(guy.x, guy.y, critter.x, critter.y);
+    console.log(critter);
     // Check if it's an overlap
     const eaten = (d < guy.size/2 + critter.size/2);
     if (eaten) {
@@ -308,7 +339,7 @@ function checkVar1Overlap() {
 /**
  * Handles the guy overlapping the critters for Var2
  */
-function checkVar2Overlap() {
+function checkVar2Overlap(critter) {
     // Get distance from guy to critter
     const d = dist(guy.x, guy.y, critter.x, critter.y);
     // Check if it's an overlap
@@ -316,13 +347,15 @@ function checkVar2Overlap() {
     if (eaten) {
         // Increase the score
         score = score + 1;
+        const index = critters.indexOf(critter);
+        critters.splice(index, 1);
     }
 }
 
 /**
  * Handles the guy overlapping the critters for Var3
  */
-function checkVar3Overlap() {
+function checkVar3Overlap(critter) {
     // Get distance from guy to critter
     const d = dist(guy.x, guy.y, critter.x, critter.y);
     // Check if it's an overlap
@@ -330,6 +363,8 @@ function checkVar3Overlap() {
     if (eaten) {
         // Increase the guy's size
         guy.size = guy.size + 50;
+        const index = critters.indexOf(critter);
+        critters.splice(index, 1);
     }
 }
 
