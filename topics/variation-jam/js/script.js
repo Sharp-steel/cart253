@@ -89,6 +89,7 @@ function draw() {
     }
     else if (state === "var1") {
         drawVar1();
+        time++;
     }
     else if (state === "var2") {
         drawVar2();
@@ -138,7 +139,7 @@ function drawGameSelect() {
 function drawVar1() {
     background("#f27e42");
     drawGuy();
-    while (critters.length < 50) {
+    while (critters.length < 5) {
         addCritter();
     }
     console.log(state);
@@ -150,15 +151,11 @@ function drawVar1() {
     drawTimer();
     moveGuy();
     //If survive 30 seconds, the game ends
-    if (time === 30) {
+    if (time === 300) {
         state = "gameOver";
         soundEffect.pause();
     }
     //If you overlap with a critter, the game ends
-    if (checkVar1Overlap() = true) {
-        state = "gameOver";
-        soundEffect.pause();
-    }
 }
 
 function drawVar2() {
@@ -300,7 +297,7 @@ function moveGuyRight() {
 }
 
 /**
- * Displays the Score
+ * Display the Score
  */
 function drawScore() {
     push();
@@ -321,7 +318,7 @@ function drawTimer() {
     noStroke();
     textSize(48);
     textAlign(RIGHT, BOTTOM);
-    text(score, width - 20, 700);
+    text(floor(time/60), width - 20, 700);
     pop();
 }
 
@@ -330,13 +327,14 @@ function drawTimer() {
  */
 function checkVar1Overlap(critter) {
     // Get distance from guy to critter
-    const d = dist(guy.x, guy.y, critter.x, critter.y);
     console.log(critter);
+    const d = dist(guy.x, guy.y, critter.x, critter.y);
     // Check if it's an overlap
     const eaten = (d < guy.size/2 + critter.size/2);
     if (eaten) {
         // Trigger game over screen
         state = "gameOver";
+        soundEffect.pause();
     }
 }
 
