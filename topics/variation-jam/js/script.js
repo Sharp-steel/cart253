@@ -51,16 +51,15 @@ let guy = {
     x: 725,
     y: 375,
     size: 50,
-    speed: 3
+    speed: 3,
+    velocity: {
+        x: 0,
+        y: 0
+    }
 };
 
 // Our critter
-let critter = {
-    x: 725,
-    y: 400,
-    size: 10,
-    speed: 3
-}
+let critters = [];
 
 let state = "title";
 
@@ -126,9 +125,9 @@ function drawGameSelect() {
     background("#f27e42");
     textSize(24);
     text("Select your Variation!", 630, 150);
-    text("EVASION (Press E)", 675, 250);
-    text("CONSUMPTION (Press C)", 655, 350);
-    text("GROWTH (Press G)", 690, 450);
+    text("EVASION (Press E)", 640, 250);
+    text("CONSUMPTION (Press C)", 605, 350);
+    text("GROWTH (Press G)", 640, 450);
     pop();
 }
 
@@ -138,15 +137,13 @@ function drawVar1() {
     drawCritter();
     drawTimer();
     checkVar1Overlap();
-    moveGuyUp();
-    moveGuyDown();
-    moveGuyLeft();
-    moveGuyRight();
+    moveGuy();
     //If survive 30 seconds, the game ends
     if (time === 30) {
         state = "gameOver";
         soundEffect.pause();
     }
+    //If you overlap with a critter, the game ends
     if (checkVar1Overlap() = true) {
         state = "gameOver";
         soundEffect.pause();
@@ -159,10 +156,7 @@ function drawVar2() {
     drawCritter();
     drawScore();
     checkVar2Overlap();
-    moveGuyUp();
-    moveGuyDown();
-    moveGuyLeft();
-    moveGuyRight();
+    moveGuy();
     //If you eat 50 critters, the game ends
     if (score === 50) {
         state = "gameOver";
@@ -175,10 +169,7 @@ function drawVar3() {
     drawGuy();
     drawCritter();
     checkVar3Overlap();
-    moveGuyUp();
-    moveGuyDown();
-    moveGuyLeft();
-    moveGuyRight();
+    moveGuy();
     //If the guy's size is over 1000, the game ends
     if (guy.size === 1000) {
         state = "gameOver";
@@ -206,10 +197,18 @@ function drawGuy() {
     pop();
 }
 
+function moveGuy() {
+    guy.x += guy.velocity.x;
+    guy.y += guy.velocity.y;
+    console.log(guy.velocity.x);
+    console.log(guy.velocity.y);
+}
+
 /**
  * Drawing the critters
  */
 function drawCritter() {
+    const 
     push();
     fill("#000000");
     noStroke();
@@ -219,44 +218,47 @@ function drawCritter() {
 
 // Moving the guy up after pressing W
 function moveGuyUp() {
-    guy.y -= guy.speed;
+    guy.velocity.y = -guy.speed;
 }
 
 // Moving the guy left after pressing A
 function moveGuyLeft() {
-    guy.x -= guy.speed;
+    guy.velocity.x = -guy.speed;
 }
 
 // Moving the guy down after pressing S
 function moveGuyDown() {
-    guy.y += guy.speed;
+    guy.velocity.y = +guy.speed;
 }
 
 // Moving the guy right after pressing D
 function moveGuyRight() {
-    guy.x += guy.speed;
+    guy.velocity.x = +guy.speed;
 }
 
 /**
- * Displays the score
+ * Displays the Score
  */
 function drawScore() {
     push();
     fill(0);
     noStroke();
     textSize(48);
-    textAlign(LEFT, BOTTOM);
-    text(score, width - 625, 480);
+    textAlign(RIGHT, BOTTOM);
+    text(score, width - 20, 700);
     pop();
 }
 
+/**
+ * Display the Timer
+ */
 function drawTimer() {
     push();
     fill(0);
     noStroke();
     textSize(48);
-    textAlign(LEFT, BOTTOM);
-    text(time, width - 625, 480);
+    textAlign(RIGHT, BOTTOM);
+    text(score, width - 20, 700);
     pop();
 }
 
@@ -317,6 +319,8 @@ function mousePressed() {
         score = 0;
         time = 0;
         guy.size = 50;
+        guy.x = 725;
+        guy.y = 375;
     }
 }
 
@@ -339,7 +343,7 @@ function keyPressed(event) {
             soundEffect.loop();
         }
     }
-    // Keys used to control our guy
+    // Keys used to control our guy upon key pressed
     if (state === "var1" || state === "var2" || state === "var3") {
         if (event.key === "w" || event.key === "W") {
             moveGuyUp();
@@ -352,6 +356,24 @@ function keyPressed(event) {
         }
         if (event.key === "d" || event.key === "D") {
             moveGuyRight();
+        }
+    }
+}
+
+function keyReleased(event) {
+    // Keys used to control our guy upon key release
+    if (state === "var1" || state === "var2" || state === "var3") {
+        if (event.key === "w" || event.key === "W" && guy.velocity.y < 0) {
+            guy.velocity.y = 0;
+        }
+        if (event.key === "a" || event.key === "A" && guy.velocity.x < 0) {
+            guy.velocity.x = 0;
+        }
+        if (event.key === "s" || event.key === "S" && guy.velocity.y > 0) {
+            guy.velocity.y = 0;
+        }
+        if (event.key === "d" || event.key === "D" && guy.velocity.x > 0) {
+            guy.velocity.x = 0;
         }
     }
 }
