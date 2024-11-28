@@ -126,9 +126,9 @@ function drawGameSelect() {
     background("#f27e42");
     textSize(24);
     text("Select your Variation!", 630, 150);
-    text("EVASION (Press e)", 675, 250);
-    text("CONSUMPTION (Press c)", 655, 350);
-    text("GROWTH (Press g)", 690, 450);
+    text("EVASION (Press E)", 675, 250);
+    text("CONSUMPTION (Press C)", 655, 350);
+    text("GROWTH (Press G)", 690, 450);
     pop();
 }
 
@@ -326,15 +326,15 @@ function mousePressed() {
 function keyPressed(event) {
     // Selects variation based on the key pressed
     if (state === "gameSelect") {
-        if (event.key === "e") {
+        if (event.key === "e" || event.key === "E") {
             state = "var1";
             soundEffect.loop();
         }
-        if (event.key === "c") {
+        if (event.key === "c" || event.key === "C") {
             state = "var2";
             soundEffect.loop();
         }
-        if (event.key === "g") {
+        if (event.key === "g" || event.key === "G") {
             state = "var3";
             soundEffect.loop();
         }
