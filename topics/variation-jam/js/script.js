@@ -47,21 +47,19 @@ let time = 0;
 let score = 0;
 
 // Our guy
-const guy = {
+let guy = {
     x: 725,
     y: 375,
     size: 50,
-    speedX: 3,
-    speedY: 3
+    speed: 3
 };
 
 // Our critter
-const critter = {
+let critter = {
     x: 725,
     y: 400,
     size: 10,
-    speedX: 3,
-    speedY: 3
+    speed: 3
 }
 
 let state = "title";
@@ -107,8 +105,8 @@ function drawTitle() {
     push();
     background("#f27e42");
     textSize(40);
-    text("Critters!", 650, 200);
-    text("CLICK TO PLAY!", 570, 400);
+    text("Critters!", 650, 250);
+    text("CLICK TO PLAY!", 570, 350);
     pop();
 }
 
@@ -128,9 +126,9 @@ function drawGameSelect() {
     background("#f27e42");
     textSize(24);
     text("Select your Variation!", 630, 150);
-    text("EVASION (Press E)", 675, 250);
-    text("CONSUMPTION (Press C)", 655, 350);
-    text("GROWTH (Press G)", 690, 450);
+    text("EVASION (Press e)", 675, 250);
+    text("CONSUMPTION (Press c)", 655, 350);
+    text("GROWTH (Press g)", 690, 450);
     pop();
 }
 
@@ -146,6 +144,10 @@ function drawVar1() {
     moveGuyRight();
     //If survive 30 seconds, the game ends
     if (time === 30) {
+        state = "gameOver";
+        soundEffect.pause();
+    }
+    if (checkVar1Overlap() = true) {
         state = "gameOver";
         soundEffect.pause();
     }
@@ -186,10 +188,10 @@ function drawVar3() {
 
 function drawGameOver() {
     push();
-    background("#008000");
+    background("#f27e42");
     textSize(48);
-    text("GAME OVER!", 250, 250);
-    text("Click to go back to the title", 100, 350)
+    text("GAME OVER!", 575, 250);
+    text("Click to go back to the title", 450, 350)
     pop();
 }
 
@@ -198,8 +200,8 @@ function drawGameOver() {
  */
 function drawGuy() {
     push();
-    noStroke();
     fill("#ffffff");
+    noStroke();
     ellipse(guy.x, guy.y, guy.size);
     pop();
 }
@@ -209,30 +211,30 @@ function drawGuy() {
  */
 function drawCritter() {
     push();
-    noStroke();
     fill("#000000");
+    noStroke();
     ellipse(critter.x, critter.y, critter.size);
     pop();
 }
 
 // Moving the guy up after pressing W
 function moveGuyUp() {
-
+    guy.y -= guy.speed;
 }
 
 // Moving the guy left after pressing A
 function moveGuyLeft() {
-
+    guy.x -= guy.speed;
 }
 
 // Moving the guy down after pressing S
 function moveGuyDown() {
-
+    guy.y += guy.speed;
 }
 
 // Moving the guy right after pressing D
 function moveGuyRight() {
-
+    guy.x += guy.speed;
 }
 
 /**
@@ -245,6 +247,16 @@ function drawScore() {
     textSize(48);
     textAlign(LEFT, BOTTOM);
     text(score, width - 625, 480);
+    pop();
+}
+
+function drawTimer() {
+    push();
+    fill(0);
+    noStroke();
+    textSize(48);
+    textAlign(LEFT, BOTTOM);
+    text(time, width - 625, 480);
     pop();
 }
 
@@ -304,6 +316,7 @@ function mousePressed() {
         state = "title";
         score = 0;
         time = 0;
+        guy.size = 50;
     }
 }
 
@@ -328,16 +341,16 @@ function keyPressed(event) {
     }
     // Keys used to control our guy
     if (state === "var1" || state === "var2" || state === "var3") {
-        if (event.key === "w") {
+        if (event.key === "w" || event.key === "W") {
             moveGuyUp();
         }
-        if (event.key === "a") {
+        if (event.key === "a" || event.key === "A") {
             moveGuyLeft();
         }
-        if (event.key === "s") {
+        if (event.key === "s" || event.key === "S") {
             moveGuyDown();
         }
-        if (event.key === "d") {
+        if (event.key === "d" || event.key === "D") {
             moveGuyRight();
         }
     }
