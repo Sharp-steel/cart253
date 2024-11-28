@@ -179,7 +179,6 @@ function drawVar2() {
         state = "gameOver";
         soundEffect.pause();
     }
-    console.log(state);
 }
 
 function drawVar3() {
@@ -227,8 +226,13 @@ function drawGuy() {
 function moveGuy() {
     guy.x += guy.velocity.x;
     guy.y += guy.velocity.y;
+    guy.x = constrain(guy.x, 0, width);
+    guy.y = constrain(guy.y, 0, height);
 }
 
+/**
+ * Adding a critter to the array
+ */
 function addCritter() {
     const critter = createCritter();
     critters.push(critter);
