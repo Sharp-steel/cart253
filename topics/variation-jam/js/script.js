@@ -33,15 +33,11 @@
 // Sound Effect
 let soundEffect = undefined;
 
-// Ant Image
-let antImg = undefined;
-
 /**
  * Loads the sound effect
  */
 function preload() {
     soundEffect = loadSound("assets/sounds/sneakywalk.wav");
-    antImg = loadImage("assets/images/ant1.png");
 }
 
 // Current Time for Var. 1
@@ -65,6 +61,7 @@ let guy = {
 // Critters array
 let critters = [];
 
+// Current state
 let state = "title";
 
 /**
@@ -139,10 +136,10 @@ function drawGameSelect() {
 function drawVar1() {
     background("#f27e42");
     drawGuy();
-    while (critters.length < 5) {
+    //Set the amount of critters
+    while (critters.length < 15) {
         addCritter();
     }
-    console.log(state);
     for (let critter of critters) {
         moveCritter(critter);
         drawCritter(critter);
@@ -151,16 +148,16 @@ function drawVar1() {
     drawTimer();
     moveGuy();
     //If survive 30 seconds, the game ends
-    if (time === 300) {
+    if (time === 1800) {
         state = "gameOver";
         soundEffect.pause();
     }
-    //If you overlap with a critter, the game ends
 }
 
 function drawVar2() {
     background("#f27e42");
     drawGuy();
+    //Set the amount of critters
     while (critters.length < 50) {
         addCritter();
     }
@@ -181,6 +178,7 @@ function drawVar2() {
 function drawVar3() {
     background("#f27e42");
     drawGuy();
+    //Set the amount of critters
     while (critters.length < 5) {
         addCritter();
     }
@@ -380,6 +378,7 @@ function mousePressed() {
     else if (state === "instructions") {
         state = "gameSelect";
     }
+    // Reset everything once the Game is Over
     else if (state === "gameOver") {
         state = "title";
         score = 0;

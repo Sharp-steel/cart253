@@ -12,8 +12,7 @@ A game where you have to avoid the critters at all costs (Or eat them that's up 
 
 This project uses [p5.js](https://p5js.org).
 
-This project also uses te P5 Template. (https://pippinbarr.com/cart253/templates/template-p5-project.zip).
+This project also uses the P5 Template. (https://pippinbarr.com/cart253/templates/template-p5-project.zip).
 
 ## Attribution
-
-<!-- The fish images were sourced from the [Creative Commons image "Georgia Aquarium Fish"](https://search.creativecommons.org/photos/96f6f770-eac1-488c-8abb-16bee7bcc874) by Mike Johnston which is licensed with CC BY 2.0. To view a copy of this license, visit https://creativecommons.org/licenses/by/2.0/. -->
+The scurrying sound effect was sourced from (https://www.youtube.com/watch?v=V2KdlMmNbtQ) by Effecism.
